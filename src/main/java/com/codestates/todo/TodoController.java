@@ -21,9 +21,9 @@ import java.util.Optional;
 
 
 @RestController
+@Validated
 @CrossOrigin
 @RequestMapping("/")
-@Validated
 @Slf4j
 public class TodoController {
     private final static String TODO_DEFAULT_URL = "/v1/todo";
@@ -43,7 +43,7 @@ public class TodoController {
 //        return ResponseEntity.created(location).build();
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.todoToTodoResponseDto(todo)),
+                mapper.todoToTodoResponseDto(todo),
                 HttpStatus.OK);
     }
 
@@ -57,7 +57,7 @@ public class TodoController {
                 todoService.updateTodo(mapper.todoPatchDtoToTodo(requestBody));
 
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.todoToTodoResponseDto(todo)),
+                mapper.todoToTodoResponseDto(todo),
                 HttpStatus.OK);
     }
 
@@ -67,7 +67,7 @@ public class TodoController {
         Todo todo = todoService.findTodo(todoId);
         todo.setTodoId(todoId);
         return new ResponseEntity<>(
-                new SingleResponseDto<>(mapper.todoToTodoResponseDto(todo))
+                mapper.todoToTodoResponseDto(todo)
                 , HttpStatus.OK);
     }
 //

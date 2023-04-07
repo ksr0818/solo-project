@@ -28,8 +28,11 @@ public class TodoService {
     }
 
     public Todo createTodo(Todo todo) {
-
-        return todoRepository.save(todo);
+        if(verifyExistsTodoOrder(todo.getTodoOrder())) {
+            todo.setTodoId(todoRepository.findByTodoOrder(todo.getTodoOrder()).get().getTodoId());
+            return updateTodo(todo);
+        }
+        else return todoRepository.save(todo);
 
     }
 //
@@ -38,7 +41,7 @@ public class TodoService {
 
         Optional.ofNullable(todo.getTitle())
                 .ifPresent(title -> findTodo.setTitle(title));
-        Optional.ofNullable(todo.isCompleted())
+        Optional.ofNullable(todo.getCompleted())
                         .ifPresent((completed -> findTodo.setCompleted(completed)));
         Optional.ofNullable(todo.getTodoOrder())
                 .ifPresent(TodoOrder -> findTodo.setTodoOrder(TodoOrder));
@@ -46,7 +49,6 @@ public class TodoService {
         return todoRepository.save(findTodo);
     }
 
-    @Transactional(readOnly = true)
     public Todo findTodo(long todoId) {
         return findVerifiedTodo(todoId);
     }
@@ -77,9 +79,8 @@ public Todo findVerifiedTodo(long todoId) {
     return findTodo;
 }
 //
-//    private void verifyExistsTitle(String email) {
-//        Optional<Todo> todo = todoRepository.findByTitle(title);
-//        if (todo.isPresent())
-//            throw new BusinessLogicException(ExceptionCode.TODO_EXISTS);
-//    }
+    private boolean verifyExistsTodoOrder(int todoOrder) {
+        Optional<Todo> todo = todoRepository.findByTodoOrder(todoOrder);
+        return todo.isPresent();
+    }
 }

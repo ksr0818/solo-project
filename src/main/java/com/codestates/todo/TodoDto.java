@@ -7,15 +7,17 @@ import lombok.Setter;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class TodoDto {
     @Getter
     public static class Post {
+        @NotBlank
         private String title;
+
         private int order;
 
         private Boolean completed;
-
 
     }
 
@@ -36,12 +38,9 @@ public class TodoDto {
     @Getter
     public static class Response {
         private long todoId;
-
         private String title;
         private Integer order;
-
         private Boolean completed;
-
 
     }
 

@@ -1,6 +1,5 @@
 package com.codestates.response;
 
-
 import com.codestates.exception.ExceptionCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
