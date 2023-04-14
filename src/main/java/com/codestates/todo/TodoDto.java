@@ -24,7 +24,6 @@ public class TodoDto {
     @Getter
     @Setter
     public static class Patch {
-
         private long todoId;
 
         private String title;
